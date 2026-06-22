@@ -1,16 +1,14 @@
-import Link from "next/link";
-
 export default function Home() {
   return (
-    <div style={{ padding: 40, fontFamily: "Arial" }}>
+    <div style={{ padding: 40 }}>
       <h1>My AI SaaS</h1>
-      <p>Pay to access your AI assistant</p>
+      <p>AI chatbot for businesses</p>
 
-      <Link href="/chat">
-        <button style={{ padding: 10, marginTop: 20 }}>
-          Go to Chat
-        </button>
-      </Link>
+      <a href="/chat">
+        <button>Go to AI Chat</button>
+      </a>
+
+      <p>💰 Payment via WhatsApp (manual unlock)</p>
     </div>
   );
 }
