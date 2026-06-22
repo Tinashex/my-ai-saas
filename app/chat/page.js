@@ -3,40 +3,29 @@
 import { useState } from "react";
 
 export default function Chat() {
-  const [message, setMessage] = useState("");
+  const [msg, setMsg] = useState("");
   const [chat, setChat] = useState([]);
-  const [paid, setPaid] = useState(false);
-
-  async function checkout() {
-    const res = await fetch("/api/checkout", { method: "POST" });
-    const data = await res.json();
-    window.location.href = data.url;
-  }
 
   async function send() {
+    if (!msg) return;
+
     const res = await fetch("/api/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message }),
+      body: JSON.stringify({ message: msg })
     });
 
     const data = await res.json();
 
-    setChat([...chat, { user: message, ai: data.reply }]);
-    setMessage("");
+    setChat([...chat, { user: msg, ai: data.reply }]);
+    setMsg("");
   }
 
   return (
     <div style={{ padding: 20 }}>
-      <h2>AI Chat</h2>
+      <h2>My AI Assistant</h2>
 
-      {!paid && (
-        <button onClick={checkout}>
-          💳 Pay to Unlock AI
-        </button>
-      )}
-
-      <div style={{ marginTop: 20 }}>
+      <div>
         {chat.map((c, i) => (
           <div key={i}>
             <p><b>You:</b> {c.user}</p>
@@ -46,12 +35,18 @@ export default function Chat() {
       </div>
 
       <input
-        value={message}
-        onChange={(e) => setMessage(e.target.value)}
-        placeholder="Type message..."
+        value={msg}
+        onChange={(e) => setMsg(e.target.value)}
+        placeholder="Ask something..."
       />
 
       <button onClick={send}>Send</button>
+
+      <hr />
+
+      <p>
+        💰 Payment: Contact owner via WhatsApp to unlock full access
+      </p>
     </div>
   );
-        }
+}
